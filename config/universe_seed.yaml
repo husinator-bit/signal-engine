@@ -13,8 +13,8 @@ companies:
   - { ticker: MRVL,  exchange: NASDAQ, name: Marvell,                  themes: [networking, custom_silicon] }
 
   # ─── Foundry / fab ───
-  - { ticker: TSM,   exchange: NYSE,   name: TSMC (ADR),               themes: [foundry, advanced_packaging] }
-  - { ticker: 2330,  exchange: TWSE,   name: TSMC,                     themes: [foundry, advanced_packaging] }
+  - { ticker: TSM,    exchange: NYSE,   name: TSMC (ADR),               themes: [foundry, advanced_packaging] }
+  - { ticker: "2330", exchange: TWSE,   name: TSMC,                     themes: [foundry, advanced_packaging] }
 
   # ─── Semicap equipment ───
   - { ticker: ASML,  exchange: NASDAQ, name: ASML,                     themes: [semicap] }
@@ -23,8 +23,8 @@ companies:
   - { ticker: KLAC,  exchange: NASDAQ, name: KLA,                       themes: [semicap] }
 
   # ─── Memory (HBM, DRAM, NAND) ───
-  - { ticker: MU,    exchange: NASDAQ, name: Micron,                    themes: [memory] }
-  - { ticker: 000660, exchange: KRX,   name: SK Hynix,                  themes: [memory] }
+  - { ticker: MU,       exchange: NASDAQ, name: Micron,                 themes: [memory] }
+  - { ticker: "000660", exchange: KRX,    name: SK Hynix,               themes: [memory] }
 
   # ─── Networking (ethernet, switching, optics) ───
   - { ticker: ANET,  exchange: NYSE,   name: Arista Networks,          themes: [networking] }
@@ -48,9 +48,9 @@ companies:
   - { ticker: CDNS,  exchange: NASDAQ, name: Cadence Design Systems,    themes: [eda] }
 
   # ─── Advanced packaging / substrates (likely discovery hotspot) ───
-  - { ticker: BESI,  exchange: AMS,    name: BE Semiconductor,          themes: [advanced_packaging] }
-  - { ticker: 6857,  exchange: TSE,    name: Advantest,                 themes: [test_equipment] }
-  - { ticker: 4063,  exchange: TSE,    name: Shin-Etsu Chemical,        themes: [materials] }
+  - { ticker: BESI,   exchange: AMS,    name: BE Semiconductor,          themes: [advanced_packaging] }
+  - { ticker: "6857", exchange: TSE,    name: Advantest,                 themes: [test_equipment] }
+  - { ticker: "4063", exchange: TSE,    name: Shin-Etsu Chemical,        themes: [materials] }
 
   # ─── Sovereign AI / inference / robotics wildcards ───
   - { ticker: SMCI,  exchange: NASDAQ, name: Super Micro Computer,      themes: [systems] }

@@ -9,7 +9,7 @@ from typing import Any
 
 import yaml
 
-CONFIG_DIR = Path(__file__).resolve().parents[2] / "config"
+CONFIG_DIR = Path(os.environ.get("CONFIG_DIR") or Path(__file__).resolve().parents[2] / "config")
 
 
 class MissingSecret(RuntimeError):
