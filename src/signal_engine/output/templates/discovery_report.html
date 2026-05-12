@@ -4,87 +4,130 @@
 <meta charset="utf-8">
 <title>AI Signal Engine — Discovery Report #{{ report_num }}</title>
 </head>
-<body style="margin:0;padding:0;background:#f5f5f0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',Helvetica,Arial,sans-serif;color:#1a1a1a;line-height:1.5;">
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',Helvetica,Arial,sans-serif;color:#1a1a1a;line-height:1.55;">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f5f0;">
 <tr><td align="center" style="padding:32px 16px;">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;background:#ffffff;border:1px solid #e0e0d8;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="680" style="max-width:680px;background:#ffffff;border:1px solid #e0e0d8;">
 
 <!-- Header -->
-<tr><td style="padding:24px 32px;border-bottom:2px solid #1a1a1a;">
+<tr><td style="padding:28px 36px 24px;border-bottom:2px solid #1a1a1a;">
   <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#666;">
     AI SIGNAL ENGINE  ·  DISCOVERY REPORT #{{ report_num }}
   </div>
-  <div style="font-size:28px;font-weight:700;margin-top:8px;letter-spacing:-0.5px;">
+  <div style="font-size:30px;font-weight:700;margin-top:8px;letter-spacing:-0.5px;line-height:1.1;">
     {{ report_date }}
   </div>
-  <div style="font-size:14px;color:#666;margin-top:6px;">
+  <div style="font-size:13px;color:#666;margin-top:8px;">
     {{ candidate_count }} discovery candidates  ·  {{ universe_count }} names tracked  ·  {{ etf_count }} ETFs monitored
   </div>
 </td></tr>
 
-<!-- Discovery candidates -->
-<tr><td style="padding:24px 32px;">
-  <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:16px;">
-    01  ·  DISCOVERY CANDIDATES
+<!-- Top candidates with narrative -->
+<tr><td style="padding:24px 36px 8px;">
+  <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:18px;">
+    01  ·  DISCOVERY CANDIDATES  ·  DEEP DIVE
   </div>
-  {% if candidates %}
-    {% for c in candidates %}
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:14px;border-left:3px solid #1a1a1a;padding-left:14px;">
+  {% for c in top_candidates %}
+  <div style="margin-bottom:28px;padding-bottom:24px;{% if not loop.last %}border-bottom:1px solid #e8e8e0;{% endif %}">
+    <!-- Candidate header -->
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td style="vertical-align:top;">
-          <span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:16px;font-weight:700;">{{ c.ticker }}</span>
-          <span style="font-size:13px;color:#666;margin-left:8px;">score {{ "%.0f"|format(c.composite_score) }}</span>
+          <div>
+            <span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:20px;font-weight:700;letter-spacing:-0.5px;">{{ c.ticker }}</span>
+            <span style="font-size:15px;color:#333;margin-left:10px;">{{ c.name }}</span>
+          </div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">
+            {{ c.sector }}{% if c.industry and c.industry != '—' %} · {{ c.industry }}{% endif %}{% if c.country and c.country != '—' %} · {{ c.country }}{% endif %}  ·  {{ c.market_cap_display }}  ·  {{ c.pe_display }}
+          </div>
         </td>
-        <td style="text-align:right;font-family:'SF Mono','Monaco',Consolas,monospace;font-size:12px;color:#666;vertical-align:top;">
-          {{ c.in_etfs|join(', ') }}
+        <td style="text-align:right;vertical-align:top;width:80px;">
+          <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:24px;font-weight:700;color:#1a1a1a;line-height:1;">{{ "%.0f"|format(c.composite_score) }}</div>
+          <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:9px;color:#888;letter-spacing:0.8px;margin-top:2px;">SCORE</div>
         </td>
       </tr>
-      <tr><td colspan="2" style="font-size:14px;color:#333;padding-top:4px;">
-        {{ c.one_line_why }}
-      </td></tr>
-      {% if c.theme_focuses %}
-      <tr><td colspan="2" style="padding-top:4px;">
-        {% for f in c.theme_focuses %}<span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:10px;color:#888;background:#f5f5f0;padding:2px 8px;margin-right:4px;display:inline-block;letter-spacing:0.5px;">{{ f }}</span>{% endfor %}
-      </td></tr>
-      {% endif %}
     </table>
-    {% endfor %}
+
+    <!-- Theme + ETF chips -->
+    <div style="margin-top:10px;">
+      {% for f in c.theme_focuses %}<span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:10px;color:#555;background:#f5f5f0;padding:3px 9px;margin-right:4px;display:inline-block;letter-spacing:0.5px;">{{ f }}</span>{% endfor %}
+      <span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:10px;color:#888;margin-left:6px;">in {{ c.in_etfs|join(', ') }} (max wgt {{ "%.1f"|format(c.max_weight_pct) }}%)</span>
+    </div>
+
+    <!-- Narrative -->
+    {% if c.narrative %}
+    <div style="margin-top:14px;font-size:14px;color:#222;line-height:1.65;">
+      {% for para in c.narrative.split('\n\n') %}{% if para.strip() %}<p style="margin:0 0 12px 0;">{{ para.strip() }}</p>{% endif %}{% endfor %}
+    </div>
+    {% else %}
+    <div style="margin-top:12px;font-size:13px;color:#666;font-style:italic;">
+      {{ c.one_line_why }} <span style="color:#999;">(narrative unavailable)</span>
+    </div>
+    {% endif %}
+  </div>
   {% else %}
-    <div style="font-size:14px;color:#666;font-style:italic;">No new candidates above threshold this period.</div>
-  {% endif %}
+  <div style="font-size:14px;color:#666;font-style:italic;">No new candidates above threshold this period.</div>
+  {% endfor %}
 </td></tr>
 
+<!-- Also-surfaced candidates (no narrative) -->
+{% if also_candidates %}
+<tr><td style="padding:8px 36px 24px;border-top:1px solid #e8e8e0;">
+  <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:14px;margin-top:14px;">
+    02  ·  ALSO SURFACED
+  </div>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size:13px;">
+    {% for c in also_candidates %}
+    <tr style="border-bottom:1px solid #f0f0e8;">
+      <td style="padding:8px 0;font-family:'SF Mono','Monaco',Consolas,monospace;font-weight:700;width:110px;vertical-align:top;">{{ c.ticker }}</td>
+      <td style="padding:8px 0;color:#888;font-family:'SF Mono','Monaco',Consolas,monospace;text-align:right;width:50px;vertical-align:top;">{{ "%.0f"|format(c.composite_score) }}</td>
+      <td style="padding:8px 12px;color:#333;vertical-align:top;">{{ c.name }} · <span style="color:#888;font-size:12px;">{{ c.one_line_why }}</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+</td></tr>
+{% endif %}
+
 <!-- Insider activity -->
-<tr><td style="padding:24px 32px;border-top:1px solid #e0e0d8;">
+<tr><td style="padding:24px 36px;border-top:1px solid #e0e0d8;">
   <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:16px;">
-    02  ·  RECENT INSIDER FILINGS  ·  {{ insider_window_days }}D WINDOW
+    03  ·  INSIDER TRANSACTIONS  ·  {{ insider_window_days }}D WINDOW
   </div>
   {% if insider_filings %}
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size:13px;">
-      {% for f in insider_filings %}
-      <tr style="border-bottom:1px solid #f0f0e8;">
-        <td style="padding:8px 0;font-family:'SF Mono','Monaco',Consolas,monospace;font-weight:700;width:80px;">{{ f.ticker }}</td>
-        <td style="padding:8px 8px;color:#666;width:90px;">{{ f.filed_date }}</td>
-        <td style="padding:8px 0;"><a href="{{ f.url }}" style="color:#1a1a1a;">{{ f.form_type }}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
+    {% for f in insider_filings %}
+    <div style="padding:10px 0;border-bottom:1px solid #f0f0e8;font-size:13px;">
+      <div style="display:flex;justify-content:space-between;">
+        <span>
+          <span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-weight:700;">{{ f.ticker }}</span>
+          <span style="margin-left:8px;color:#333;">{{ f.insider_name }}</span>
+          <span style="color:#888;font-size:12px;margin-left:6px;">({{ f.insider_role }})</span>
+        </span>
+        <span style="color:#888;font-family:'SF Mono','Monaco',Consolas,monospace;font-size:12px;">{{ f.transacted_date }}</span>
+      </div>
+      <div style="margin-top:4px;font-size:13px;color:#222;">
+        {% set color = '#2a7a3e' if f.transaction_type == 'buy' else '#a8312a' if f.transaction_type == 'sell' else '#666' %}
+        <span style="font-family:'SF Mono','Monaco',Consolas,monospace;font-weight:700;color:{{ color }};text-transform:uppercase;font-size:11px;letter-spacing:0.5px;">{{ f.transaction_type }}</span>
+        <span style="margin-left:8px;">{{ "{:,.0f}".format(f.shares) }} shares{% if f.price_per_share %} @ ${{ "%.2f"|format(f.price_per_share) }}{% endif %}{% if f.value_usd %} · <strong>${{ "{:,.0f}".format(f.value_usd) }}</strong>{% endif %}</span>
+        <a href="{{ f.url }}" style="color:#999;font-size:11px;margin-left:8px;">filing</a>
+      </div>
+    </div>
+    {% endfor %}
   {% else %}
     <div style="font-size:14px;color:#666;font-style:italic;">No Form 4 filings on watchlist in window.</div>
   {% endif %}
 </td></tr>
 
 <!-- Material filings -->
-<tr><td style="padding:24px 32px;border-top:1px solid #e0e0d8;">
+<tr><td style="padding:24px 36px;border-top:1px solid #e0e0d8;">
   <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:16px;">
-    03  ·  MATERIAL FILINGS  ·  {{ filing_window_days }}D WINDOW
+    04  ·  MATERIAL FILINGS  ·  {{ filing_window_days }}D WINDOW
   </div>
   {% if material_filings %}
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size:13px;">
       {% for f in material_filings %}
       <tr style="border-bottom:1px solid #f0f0e8;">
         <td style="padding:8px 0;font-family:'SF Mono','Monaco',Consolas,monospace;font-weight:700;width:80px;">{{ f.ticker }}</td>
-        <td style="padding:8px 8px;color:#666;width:90px;">{{ f.filed_date }}</td>
+        <td style="padding:8px 8px;color:#666;width:100px;">{{ f.filed_date }}</td>
         <td style="padding:8px 8px;font-family:'SF Mono','Monaco',Consolas,monospace;width:60px;">{{ f.form_type }}</td>
         <td style="padding:8px 0;"><a href="{{ f.url }}" style="color:#1a1a1a;font-size:12px;">view</a></td>
       </tr>
@@ -95,10 +138,10 @@
   {% endif %}
 </td></tr>
 
-<!-- Watchlist price moves -->
-<tr><td style="padding:24px 32px;border-top:1px solid #e0e0d8;">
+<!-- Watchlist moves -->
+<tr><td style="padding:24px 36px;border-top:1px solid #e0e0d8;">
   <div style="font-family:'SF Mono','Monaco',Consolas,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;margin-bottom:16px;">
-    04  ·  WATCHLIST MOVES  ·  {{ price_window_days }}D
+    05  ·  WATCHLIST MOVES  ·  {{ price_window_days }}D
   </div>
   {% if price_moves %}
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size:13px;">
@@ -116,7 +159,7 @@
 </td></tr>
 
 <!-- Footer -->
-<tr><td style="padding:20px 32px;background:#fafaf5;border-top:1px solid #e0e0d8;font-size:11px;color:#888;font-family:'SF Mono','Monaco',Consolas,monospace;letter-spacing:0.3px;line-height:1.6;">
+<tr><td style="padding:20px 36px;background:#fafaf5;border-top:1px solid #e0e0d8;font-size:11px;color:#888;font-family:'SF Mono','Monaco',Consolas,monospace;letter-spacing:0.3px;line-height:1.6;">
   GENERATED {{ generated_at }}  ·  PRIVATE INVESTOR USE  ·  NOT INVESTMENT ADVICE<br>
   Engine surfaces evidence-based candidates. Operator decides.<br>
   Repo: <a href="https://github.com/husinator-bit/signal-engine" style="color:#888;">husinator-bit/signal-engine</a>
