@@ -119,6 +119,37 @@ def run_etfs() -> dict:
     return etfs.run()
 
 
+# ---------------------------------------------------------------------------
+# Report layer
+# ---------------------------------------------------------------------------
+
+@app.function(secrets=[secret], schedule=modal.Cron("0 6 1 * *"), timeout=600)
+def send_monthly_discovery_report() -> dict:
+    """Compose + send Discovery Report on the 1st of every month, 06:00 UTC
+    (= 07:00 CET). Triggered automatically; do not call directly."""
+    import os
+    os.environ.setdefault("CONFIG_DIR", "/root/config")
+    _setup_logging()
+    from signal_engine.output import email, report
+    subject, html = report.compose()
+    response = email.send(subject, html)
+    report.record_sent(candidates_count=10)
+    return {"sent": True, "id": response.get("id"), "subject": subject}
+
+
+@app.function(secrets=[secret], timeout=600)
+def run_report() -> dict:
+    """Manual trigger for the Discovery Report. Sends to USER_EMAIL."""
+    import os
+    os.environ.setdefault("CONFIG_DIR", "/root/config")
+    _setup_logging()
+    from signal_engine.output import email, report
+    subject, html = report.compose()
+    response = email.send(subject, html)
+    report.record_sent(candidates_count=10)
+    return {"sent": True, "id": response.get("id"), "subject": subject}
+
+
 @app.local_entrypoint()
 def smoke() -> None:
     """Local smoke test: triggers all three ingest jobs in the cloud."""
