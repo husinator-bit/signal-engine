@@ -1,0 +1,25 @@
+# Theme taxonomy. Used for tagging companies and grouping discovery output.
+# Hand-edited. Bottleneck-layer hierarchy lets the Thematic Discovery sweep
+# track rotations across layers (compute -> memory -> power, etc.).
+
+themes:
+  - { slug: compute,             name: "Compute / accelerators",        bottleneck_layer: silicon }
+  - { slug: custom_silicon,      name: "Custom inference silicon",       bottleneck_layer: silicon }
+  - { slug: memory,              name: "Memory (HBM/DRAM/NAND)",         bottleneck_layer: silicon }
+  - { slug: foundry,             name: "Foundry / fabrication",          bottleneck_layer: silicon }
+  - { slug: semicap,             name: "Semicap equipment",              bottleneck_layer: silicon }
+  - { slug: eda,                 name: "EDA / design tools",             bottleneck_layer: silicon }
+  - { slug: advanced_packaging,  name: "Advanced packaging / CoWoS",     bottleneck_layer: packaging }
+  - { slug: substrates,          name: "ABF substrates",                 bottleneck_layer: packaging }
+  - { slug: test_equipment,      name: "Test equipment",                 bottleneck_layer: packaging }
+  - { slug: materials,           name: "Semi materials",                  bottleneck_layer: packaging }
+  - { slug: networking,          name: "Networking / ethernet / IB",     bottleneck_layer: interconnect }
+  - { slug: optics,              name: "Optical interconnect / CPO",     bottleneck_layer: interconnect }
+  - { slug: cooling,             name: "Liquid cooling at scale",         bottleneck_layer: thermal }
+  - { slug: power,               name: "Power generation for AI DC",      bottleneck_layer: power }
+  - { slug: grid,                name: "Grid equipment / transformers",   bottleneck_layer: power }
+  - { slug: nuclear_smr,         name: "Nuclear SMR (speculative)",       bottleneck_layer: power }
+  - { slug: hyperscaler,         name: "Hyperscaler capex source",        bottleneck_layer: demand }
+  - { slug: sovereign_ai,        name: "Sovereign AI infra",              bottleneck_layer: demand }
+  - { slug: systems,             name: "AI server systems integration",   bottleneck_layer: assembly }
+  - { slug: robotics,            name: "Physical AI / robotics",          bottleneck_layer: edge }

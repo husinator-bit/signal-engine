@@ -1,0 +1,12 @@
+# ETFs whose daily holdings we diff. New additions = potential discovery signal.
+# Diversified across thematic focus so we catch rotations in any sub-theme.
+
+etfs:
+  - { ticker: SOXX,   name: "iShares Semiconductor",          focus: semiconductors,    issuer: ishares,    holdings_url: "https://www.ishares.com/us/products/239705/" }
+  - { ticker: SMH,    name: "VanEck Semiconductor",            focus: semiconductors,    issuer: vaneck,     holdings_url: "https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/holdings/" }
+  - { ticker: AIQ,    name: "Global X AI & Technology",        focus: ai_broad,          issuer: globalx,    holdings_url: "https://www.globalxetfs.com/funds/aiq/" }
+  - { ticker: BOTZ,   name: "Global X Robotics & AI",          focus: robotics_ai,       issuer: globalx,    holdings_url: "https://www.globalxetfs.com/funds/botz/" }
+  - { ticker: CHAT,   name: "Roundhill Generative AI & Tech",  focus: gen_ai,            issuer: roundhill,  holdings_url: "https://www.roundhillinvestments.com/etf/chat/" }
+  - { ticker: ARKQ,   name: "ARK Autonomous Tech & Robotics",  focus: robotics_av,       issuer: ark,        holdings_url: "https://ark-funds.com/funds/arkq/" }
+  - { ticker: GRID,   name: "First Trust Smart Grid",          focus: grid_power,        issuer: first_trust, holdings_url: "https://www.ftportfolios.com/Retail/etf/ETFsummary.aspx?Ticker=GRID" }
+  - { ticker: NLR,    name: "VanEck Uranium + Nuclear",        focus: nuclear,           issuer: vaneck,     holdings_url: "https://www.vaneck.com/us/en/investments/uranium-nuclear-energy-etf-nlr/holdings/" }
